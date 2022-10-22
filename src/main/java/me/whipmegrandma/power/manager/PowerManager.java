@@ -1,5 +1,6 @@
 package me.whipmegrandma.power.manager;
 
+import me.whipmegrandma.power.database.Database;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -27,6 +28,8 @@ public class PowerManager {
 		int powerUpdated = power + amount;
 
 		powerManager.put(uuid, powerUpdated);
+
+		Database.getInstance().saveCache(player);
 	}
 
 	public static void remove(Player player, int amount) {
@@ -36,12 +39,16 @@ public class PowerManager {
 		int powerUpdated = power - amount;
 
 		powerManager.put(uuid, powerUpdated);
+
+		Database.getInstance().saveCache(player);
 	}
 
 	public static void set(Player player, int amount) {
 		UUID uuid = player.getUniqueId();
 
 		powerManager.put(uuid, amount);
+
+		Database.getInstance().saveCache(player);
 	}
 
 	public static int balance(Player player) {
@@ -63,7 +70,7 @@ public class PowerManager {
 	public static int leaderboardPosition(Player player, HashMap<String, Integer> map) {
 
 		int i = 1;
-		
+
 		for (Map.Entry<String, Integer> list : sortLeaderboard(map)) {
 			String leaderboard = list.getKey();
 			String playerName = player.getName();
@@ -75,7 +82,6 @@ public class PowerManager {
 			i++;
 
 		}
-
 		return 0;
 	}
 }

@@ -54,6 +54,11 @@ public class Database extends SimpleDatabase {
 		});
 	}
 
+	public void saveCache(Player player) {
+		this.saveCache(player, non -> {
+		});
+	}
+
 	public void saveCache(Player player, Consumer<Integer> onLoaded) {
 		Valid.checkSync("Please call this on the main thread.");
 

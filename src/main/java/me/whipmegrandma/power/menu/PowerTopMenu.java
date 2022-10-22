@@ -8,7 +8,6 @@ import org.mineacademy.fo.remain.CompMaterial;
 
 @Setter
 public class PowerTopMenu extends Menu {
-
 	private ItemStack first = ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#1").make();
 	private ItemStack second = ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#2").make();
 	private ItemStack third = ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#3").make();
@@ -17,6 +16,8 @@ public class PowerTopMenu extends Menu {
 
 	public PowerTopMenu() {
 		this.setSize(45);
+
+		this.setTitle("&ePower Leaderboard");
 	}
 
 	@Override
@@ -41,5 +42,5 @@ public class PowerTopMenu extends Menu {
 
 
 	}
-	
+
 }
