@@ -3,6 +3,7 @@ package me.whipmegrandma.power.listener;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.whipmegrandma.power.database.Database;
 import me.whipmegrandma.power.manager.PowerManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,14 +22,15 @@ public final class PlayerListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		
-		PowerManager.join(player);
+
+		Database.getInstance().loadCache(player, loadedCache -> PowerManager.join(player, loadedCache));
+
 	}
 
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 
-		PowerManager.quit(player);
+		Database.getInstance().saveCache(player, loadedCache -> PowerManager.quit(player));
 	}
 }

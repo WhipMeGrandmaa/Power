@@ -1,5 +1,6 @@
 package me.whipmegrandma.power.command.power;
 
+import me.whipmegrandma.power.database.Database;
 import me.whipmegrandma.power.manager.PowerManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,23 +19,26 @@ public final class BalanceSubCommand extends SimpleSubCommand {
 	@Override
 	protected void onCommand() {
 
-		CommandSender sender = getSender();
+		Database.getInstance().pollAllCache(cache -> {
+			CommandSender sender = getSender();
 
-		if (args.length == 0) {
+			if (args.length == 0) {
 
-			checkConsole();
+				checkConsole();
 
-			int balance = PowerManager.balance((Player) sender);
+				int balance = PowerManager.balance((Player) sender);
 
-			Common.tell(sender, "Power: " + balance,
-					"Leaderboard place:");
-		}
+				Common.tell(sender, "Power: " + balance,
+						"Leaderboard place: " + PowerManager.leaderboardPosition((Player) sender, cache));
 
-		Player receiver = findPlayer(args[0]);
+				return;
+			}
 
-		int balance = PowerManager.balance(receiver);
+			Player receiver = findPlayer(args[0]);
 
-		Common.tell(sender, "Power of " + receiver.getName() + ": " + balance);
+			int balance = PowerManager.balance(receiver);
 
+			Common.tell(sender, "Power of " + receiver.getName() + ": " + balance);
+		});
 	}
 }
