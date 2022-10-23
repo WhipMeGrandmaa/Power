@@ -23,6 +23,7 @@ public final class PowerCommandGroup extends SimpleCommandGroup {
 		this.registerSubcommand(new SetSubCommand(this));
 		this.registerSubcommand(new RemoveSubCommand(this));
 		this.registerSubcommand(new BalanceSubCommand(this));
+		this.registerSubcommand(new EditSubCommand(this));
 		this.registerSubcommand(new ReloadCommand());
 	}
 
