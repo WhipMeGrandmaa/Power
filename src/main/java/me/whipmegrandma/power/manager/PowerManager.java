@@ -1,7 +1,13 @@
 package me.whipmegrandma.power.manager;
 
 import me.whipmegrandma.power.database.Database;
+import me.whipmegrandma.power.menu.SellMenu;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.mineacademy.fo.ItemUtil;
+import org.mineacademy.fo.PlayerUtil;
+import org.mineacademy.fo.remain.CompMaterial;
+import org.mineacademy.fo.remain.CompSound;
 
 import java.util.*;
 
@@ -42,6 +48,38 @@ public class PowerManager {
 
 		Database.getInstance().saveCache(player);
 	}
+
+	public static void sell(Player player, int amount, CompMaterial material, SellMenu menu) {
+		UUID uuid = player.getUniqueId();
+		ItemStack[] items = player.getInventory().getContents();
+
+		int times = 0;
+
+		for (ItemStack item : items)
+			if (item != null && material.toMaterial() == item.getType()) {
+				times += item.getAmount();
+			}
+
+		if (times == 0) {
+			menu.restartMenu("&cInsufficient " + ItemUtil.bountifyCapitalized(material) + "!");
+			CompSound.ENTITY_VILLAGER_NO.play(player);
+
+			return;
+		}
+
+		PlayerUtil.take(player, material, times);
+
+		menu.restartMenu("&aSold for " + (amount * times) + " power!");
+		CompSound.ENTITY_VILLAGER_CELEBRATE.play(player);
+
+		int power = powerManager.get(uuid);
+		int powerUpdated = power + (amount * times);
+
+		powerManager.put(uuid, powerUpdated);
+
+		Database.getInstance().saveCache(player);
+	}
+
 
 	public static void set(Player player, int amount) {
 		UUID uuid = player.getUniqueId();
