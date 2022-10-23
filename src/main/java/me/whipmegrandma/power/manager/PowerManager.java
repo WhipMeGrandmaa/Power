@@ -1,6 +1,7 @@
 package me.whipmegrandma.power.manager;
 
 import me.whipmegrandma.power.database.Database;
+import me.whipmegrandma.power.menu.BuyMenu;
 import me.whipmegrandma.power.menu.SellMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -69,7 +70,6 @@ public class PowerManager {
 
 		PlayerUtil.take(player, material, times);
 
-		menu.restartMenu("&aSold for " + (amount * times) + " power!");
 		CompSound.ENTITY_VILLAGER_CELEBRATE.play(player);
 
 		int power = powerManager.get(uuid);
@@ -78,8 +78,35 @@ public class PowerManager {
 		powerManager.put(uuid, powerUpdated);
 
 		Database.getInstance().saveCache(player);
+
+		menu.restartMenu("&aSold for " + (amount * times) + " power!");
+
 	}
 
+	public static void buy(Player player, int amount, ItemStack item, BuyMenu menu) {
+		UUID uuid = player.getUniqueId();
+		ItemStack[] items = player.getInventory().getContents();
+
+		int power = powerManager.get(uuid);
+		int powerUpdated = power - amount;
+
+		if (powerUpdated < 0) {
+			menu.restartMenu("&cInsufficient funds!");
+			CompSound.ENTITY_VILLAGER_NO.play(player);
+
+			return;
+		}
+
+		PlayerUtil.addItemsOrDrop(player, item);
+
+		CompSound.ENTITY_VILLAGER_CELEBRATE.play(player);
+
+		powerManager.put(uuid, powerUpdated);
+
+		Database.getInstance().saveCache(player);
+
+		menu.restartMenu("&aYou received a " + ItemUtil.bountifyCapitalized(item.getType()) + "!");
+	}
 
 	public static void set(Player player, int amount) {
 		UUID uuid = player.getUniqueId();
