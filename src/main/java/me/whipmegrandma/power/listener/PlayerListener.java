@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import me.whipmegrandma.power.database.Database;
 import me.whipmegrandma.power.file.PowerShopCauldronFile;
 import me.whipmegrandma.power.manager.PowerManager;
+import me.whipmegrandma.power.menu.BuyMenu;
 import me.whipmegrandma.power.menu.SellMenu;
-import me.whipmegrandma.power.menu.ShopMenu;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -102,10 +102,10 @@ public final class PlayerListener implements Listener {
 			return;
 
 		if (action == Action.LEFT_CLICK_BLOCK)
-			new ShopMenu().displayTo(player);
+			new BuyMenu().displayTo(player);
 
 		if (action == Action.RIGHT_CLICK_BLOCK)
-			new SellMenu().displayTo(player);
+			new SellMenu(player).displayTo(player);
 
 	}
 }

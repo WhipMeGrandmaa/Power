@@ -15,7 +15,9 @@ public class SellPriceFile extends YamlStaticConfig {
 
 	@Override
 	protected void onLoad() throws Exception {
+		setPathPrefix("Sell");
 		this.loadConfiguration("settings.yml");
+		
 	}
 
 	private static void init() {

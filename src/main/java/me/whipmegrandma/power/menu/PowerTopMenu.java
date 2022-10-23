@@ -3,16 +3,14 @@ package me.whipmegrandma.power.menu;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.mineacademy.fo.menu.Menu;
-import org.mineacademy.fo.menu.model.ItemCreator;
-import org.mineacademy.fo.remain.CompMaterial;
 
 @Setter
 public class PowerTopMenu extends Menu {
-	private ItemStack first = ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#1").make();
-	private ItemStack second = ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#2").make();
-	private ItemStack third = ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#3").make();
-	private ItemStack fourth = ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#4").make();
-	private ItemStack fifth = ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#5").make();
+	private ItemStack first;
+	private ItemStack second;
+	private ItemStack third;
+	private ItemStack fourth;
+	private ItemStack fifth;
 
 	public PowerTopMenu() {
 		this.setSize(45);

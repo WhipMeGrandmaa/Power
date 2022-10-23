@@ -2,6 +2,7 @@ package me.whipmegrandma.power.menu;
 
 import me.whipmegrandma.power.file.SellPriceFile;
 import me.whipmegrandma.power.manager.PowerManager;
+import org.bukkit.entity.Player;
 import org.mineacademy.fo.menu.Menu;
 import org.mineacademy.fo.menu.button.Button;
 import org.mineacademy.fo.menu.button.annotation.Position;
@@ -34,8 +35,11 @@ public class SellMenu extends Menu {
 	@Position(34)
 	private final Button blazeRod;
 
-	public SellMenu() {
-		this.setSize(45);
+	@Position(49)
+	private final Button balance;
+
+	public SellMenu(Player person) {
+		this.setSize(54);
 
 		this.setTitle("&ePower Sell");
 
@@ -77,7 +81,13 @@ public class SellMenu extends Menu {
 		this.blazeRod = Button.makeSimple(ItemCreator.of(CompMaterial.BLAZE_ROD, "&dBlaze Rod", "&fPower per 1: &e1", "", "&f&nClick to sell all."),
 				player -> {
 					PowerManager.sell(player, SellPriceFile.blazeRod, CompMaterial.BLAZE_ROD, this);
+					this.restartMenu();
 				});
+
+		this.balance = Button.makeSimple(ItemCreator.of(CompMaterial.PLAYER_HEAD, "&fPower Balance: &e" + PowerManager.balance(person))
+				.skullUrl("https://textures.minecraft.net/texture/df323ec6d848c24950fc7aa51b6caca05a22fd7068d12504dbb97213f1f20980"), player -> {
+		});
+
 	}
 
 }

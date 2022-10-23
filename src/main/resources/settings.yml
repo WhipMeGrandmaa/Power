@@ -4,14 +4,31 @@
 #
 # -------------------------------------------------------------------------------------------------
 
-Spider_Eye: 1
-Nether_Wart: 2
-Amethyst: 3
-Rotten_Flesh: 4
-Lives: 5
-Mob_Fragments: 6
-Magma_Cream: 7
-Blaze_Rod: 8
+Buy:
+  Lives: 1
+  Drill_Enchant: 2
+  Haste_Enchant: 3
+  Speed_Enchant: 4
+  Anti_Hunger_Enchant: 5
+  Random_Vanilla_Enchant: 6
+  Netherite_Ingot: 7
+  Store_Credits: 8
+  Regular_Eco_Transfer: 9
+  Elytra: 10
+  Shulker_Box: 11
+  Villager_Egg: 12
+  Random_Spawner: 13
+  Vote_Keys: 14
+
+Sell:
+  Spider_Eye: 1
+  Nether_Wart: 2
+  Amethyst: 3
+  Rotten_Flesh: 4
+  Lives: 5
+  Mob_Fragments: 6
+  Magma_Cream: 7
+  Blaze_Rod: 8
 
 # -------------------------------------------------------------------------------------------------
 # The formats used in the {timestamp} and {location} variables. For help with timestamp, see:

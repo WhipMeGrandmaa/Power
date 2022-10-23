@@ -2,10 +2,10 @@ package me.whipmegrandma.power.menu;
 
 import org.mineacademy.fo.menu.Menu;
 
-public class ShopMenu extends Menu {
+public class BuyMenu extends Menu {
 
-	public ShopMenu() {
-		this.setSize(45);
+	public BuyMenu() {
+		this.setSize(54);
 
 		this.setTitle("&ePower Shop");
 	}
