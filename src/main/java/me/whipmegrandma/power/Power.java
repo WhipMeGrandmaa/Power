@@ -1,6 +1,7 @@
 package me.whipmegrandma.power;
 
 import me.whipmegrandma.power.database.Database;
+import me.whipmegrandma.power.file.PowerShopCauldronFile;
 import org.mineacademy.fo.FileUtil;
 import org.mineacademy.fo.plugin.SimplePlugin;
 
@@ -15,6 +16,8 @@ public final class Power extends SimplePlugin {
 
 	@Override
 	protected void onReloadablesStart() {
+
+		PowerShopCauldronFile.onEnable();
 
 	}
 
