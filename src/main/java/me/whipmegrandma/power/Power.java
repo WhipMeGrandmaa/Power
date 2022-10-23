@@ -15,6 +15,8 @@ public final class Power extends SimplePlugin {
 
 		Database.getInstance().connect("jdbc:sqlite:" + FileUtil.getOrMakeFile("database.sqlite").getAbsolutePath());
 
+		Common.setLogPrefix("[Power]");
+
 	}
 
 	@Override
@@ -23,10 +25,12 @@ public final class Power extends SimplePlugin {
 		PowerShopCauldronFile.onEnable();
 
 		if (HookManager.isPlaceholderAPILoaded()) {
-			new PlaceholderApi().register();
+
+			PlaceholderApi.loadPapi();
 			Common.log("Enabled support for PlaceholderAPI.");
+
 		} else
-			Common.log("Disabling support for PlaceholderAPI. ");
+			Common.log("Disabling support for PlaceholderAPI. Please download PlaceholderAPI here https://www.spigotmc.org/resources/placeholderapi.6245/");
 	}
 
 	public static Power getInstance() {

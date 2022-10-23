@@ -1,5 +1,6 @@
 package me.whipmegrandma.power.papi;
 
+import lombok.Setter;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.whipmegrandma.power.database.Database;
 import me.whipmegrandma.power.manager.PowerManager;
@@ -9,25 +10,26 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
+@Setter
 public class PlaceholderApi extends PlaceholderExpansion {
 
-	String ptopname1;
-	String ptopname2;
-	String ptopname3;
-	String ptopname4;
-	String ptopname5;
-	String ptopname6;
-	String ptopname7;
-	String ptopname8;
+	private String ptopname1;
+	private String ptopname2;
+	private String ptopname3;
+	private String ptopname4;
+	private String ptopname5;
+	private String ptopname6;
+	private String ptopname7;
+	private String ptopname8;
 
-	String ptopbal1;
-	String ptopbal2;
-	String ptopbal3;
-	String ptopbal4;
-	String ptopbal5;
-	String ptopbal6;
-	String ptopbal7;
-	String ptopbal8;
+	private String ptopbal1;
+	private String ptopbal2;
+	private String ptopbal3;
+	private String ptopbal4;
+	private String ptopbal5;
+	private String ptopbal6;
+	private String ptopbal7;
+	private String ptopbal8;
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -61,56 +63,6 @@ public class PlaceholderApi extends PlaceholderExpansion {
 
 		if ("playerpower".equals(params))
 			return String.valueOf(PowerManager.balance(player));
-
-		Database.getInstance().pollAllCache(cache -> {
-			int i = 0;
-
-			for (Map.Entry<String, Integer> map : PowerManager.sortLeaderboard(cache)) {
-				i++;
-
-				if (i == 1) {
-					PlaceholderApi.this.ptopname1 = map.getKey();
-					PlaceholderApi.this.ptopbal1 = String.valueOf(map.getValue());
-				}
-
-				if (i == 2) {
-					PlaceholderApi.this.ptopname2 = map.getKey();
-					PlaceholderApi.this.ptopbal2 = String.valueOf(map.getValue());
-				}
-
-				if (i == 3) {
-					PlaceholderApi.this.ptopname3 = map.getKey();
-					PlaceholderApi.this.ptopbal3 = String.valueOf(map.getValue());
-				}
-
-				if (i == 4) {
-					PlaceholderApi.this.ptopname4 = map.getKey();
-					PlaceholderApi.this.ptopbal4 = String.valueOf(map.getValue());
-				}
-
-				if (i == 5) {
-					PlaceholderApi.this.ptopname5 = map.getKey();
-					PlaceholderApi.this.ptopbal5 = String.valueOf(map.getValue());
-				}
-
-				if (i == 6) {
-					PlaceholderApi.this.ptopname6 = map.getKey();
-					PlaceholderApi.this.ptopbal6 = String.valueOf(map.getValue());
-				}
-
-				if (i == 7) {
-					PlaceholderApi.this.ptopname7 = map.getKey();
-					PlaceholderApi.this.ptopbal7 = String.valueOf(map.getValue());
-				}
-
-				if (i == 8) {
-					PlaceholderApi.this.ptopname8 = map.getKey();
-					PlaceholderApi.this.ptopbal8 = String.valueOf(map.getValue());
-
-					break;
-				}
-			}
-		});
 
 		if ("ptopname1".equals(params))
 			return this.ptopname1;
@@ -162,6 +114,65 @@ public class PlaceholderApi extends PlaceholderExpansion {
 			return this.ptopbal8;
 
 		return null;
+	}
+
+	public static void loadPapi() {
+
+		Database.getInstance().pollAllCache(cache -> {
+
+			PlaceholderApi api = new PlaceholderApi();
+
+			int i = 0;
+
+			for (Map.Entry<String, Integer> map : PowerManager.sortLeaderboard(cache)) {
+				i++;
+
+				if (i == 1) {
+					api.setPtopname1(map.getKey());
+					api.setPtopbal1(String.valueOf(map.getValue()));
+				}
+
+				if (i == 2) {
+					api.setPtopname2(map.getKey());
+					api.setPtopbal2(String.valueOf(map.getValue()));
+				}
+
+				if (i == 3) {
+					api.setPtopname3(map.getKey());
+					api.setPtopbal3(String.valueOf(map.getValue()));
+				}
+
+				if (i == 4) {
+					api.setPtopname4(map.getKey());
+					api.setPtopbal4(String.valueOf(map.getValue()));
+				}
+
+				if (i == 5) {
+					api.setPtopname5(map.getKey());
+					api.setPtopbal5(String.valueOf(map.getValue()));
+				}
+
+				if (i == 6) {
+					api.setPtopname6(map.getKey());
+					api.setPtopbal6(String.valueOf(map.getValue()));
+				}
+
+				if (i == 7) {
+					api.setPtopname7(map.getKey());
+					api.setPtopbal7(String.valueOf(map.getValue()));
+				}
+
+				if (i == 8) {
+					api.setPtopname8(map.getKey());
+					api.setPtopbal8(String.valueOf(map.getValue()));
+
+					break;
+				}
+			}
+
+			api.register();
+			
+		});
 	}
 
 }

@@ -7,6 +7,8 @@ import org.mineacademy.fo.Common;
 import org.mineacademy.fo.command.SimpleCommandGroup;
 import org.mineacademy.fo.command.SimpleSubCommand;
 
+import java.util.List;
+
 public final class GiveSubCommand extends SimpleSubCommand {
 
 	protected GiveSubCommand(SimpleCommandGroup parent) {
@@ -33,5 +35,10 @@ public final class GiveSubCommand extends SimpleSubCommand {
 
 		if (!sender.equals(receiver))
 			Common.tell(sender, power + " power has been given to " + receiver.getName());
+	}
+
+	@Override
+	protected List<String> tabComplete() {
+		return args.length == 1 ? completeLastWordPlayerNames() : NO_COMPLETE;
 	}
 }

@@ -41,8 +41,11 @@ public final class PowerTopCommand extends SimpleCommand {
 				if (i == 4)
 					menu.setFourth(ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#4 " + map.getKey(), "", "&ePower: " + map.getValue()).skullOwner(map.getKey()).make());
 
-				if (i == 5)
+				if (i == 5) {
 					menu.setFifth(ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#5 " + map.getKey(), "", "&ePower: " + map.getValue()).skullOwner(map.getKey()).make());
+
+					break;
+				}
 
 			}
 

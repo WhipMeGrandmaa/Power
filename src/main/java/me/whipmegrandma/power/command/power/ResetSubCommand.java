@@ -9,14 +9,14 @@ import org.mineacademy.fo.command.SimpleSubCommand;
 
 import java.util.List;
 
-public final class RemoveSubCommand extends SimpleSubCommand {
+public final class ResetSubCommand extends SimpleSubCommand {
 
-	protected RemoveSubCommand(SimpleCommandGroup parent) {
-		super(parent, "remove");
+	protected ResetSubCommand(SimpleCommandGroup parent) {
+		super(parent, "reset");
 
-		this.setPermission("power.command.remove");
-		this.setUsage("<username> <amount>");
-		this.setMinArguments(2);
+		this.setPermission("power.command.reset");
+		this.setUsage("<username>");
+		this.setMinArguments(1);
 	}
 
 	@Override
@@ -25,16 +25,13 @@ public final class RemoveSubCommand extends SimpleSubCommand {
 		CommandSender sender = getSender();
 
 		Player receiver = findPlayer(args[0]);
-		int power = findNumber(1, "The amount must be a number!");
 
-		checkBoolean(power < 0 ? false : true, "The amount must be a positive whole number!");
+		PowerManager.set(receiver, 0);
 
-		PowerManager.remove(receiver, power);
-
-		Common.tell(receiver, power + " power has been taken from you.");
+		Common.tell(receiver, "Your power has been reset.");
 
 		if (!sender.equals(receiver))
-			Common.tell(sender, power + " power has been taken from " + receiver.getName());
+			Common.tell(sender, "You have reset the power of " + receiver.getName() + ".");
 	}
 
 	@Override

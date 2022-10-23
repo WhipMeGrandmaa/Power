@@ -8,6 +8,8 @@ import org.mineacademy.fo.Common;
 import org.mineacademy.fo.command.SimpleCommandGroup;
 import org.mineacademy.fo.command.SimpleSubCommand;
 
+import java.util.List;
+
 public final class BalanceSubCommand extends SimpleSubCommand {
 
 	protected BalanceSubCommand(SimpleCommandGroup parent) {
@@ -40,5 +42,10 @@ public final class BalanceSubCommand extends SimpleSubCommand {
 
 			Common.tell(sender, "Power of " + receiver.getName() + ": " + balance);
 		});
+	}
+
+	@Override
+	protected List<String> tabComplete() {
+		return args.length == 1 ? completeLastWordPlayerNames() : NO_COMPLETE;
 	}
 }

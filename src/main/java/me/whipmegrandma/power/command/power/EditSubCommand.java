@@ -8,6 +8,8 @@ import org.mineacademy.fo.command.SimpleSubCommand;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
 
+import java.util.List;
+
 public final class EditSubCommand extends SimpleSubCommand {
 
 	protected EditSubCommand(SimpleCommandGroup parent) {
@@ -27,5 +29,10 @@ public final class EditSubCommand extends SimpleSubCommand {
 
 		player.getInventory().addItem(cauldron);
 		Common.tell(player, "Given a power cauldron. Place this down wherever you want a shop.");
+	}
+
+	@Override
+	protected List<String> tabComplete() {
+		return NO_COMPLETE;
 	}
 }
