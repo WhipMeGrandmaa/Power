@@ -2,7 +2,10 @@ package me.whipmegrandma.power;
 
 import me.whipmegrandma.power.database.Database;
 import me.whipmegrandma.power.file.PowerShopCauldronFile;
+import me.whipmegrandma.power.papi.PlaceholderApi;
+import org.mineacademy.fo.Common;
 import org.mineacademy.fo.FileUtil;
+import org.mineacademy.fo.model.HookManager;
 import org.mineacademy.fo.plugin.SimplePlugin;
 
 public final class Power extends SimplePlugin {
@@ -19,6 +22,11 @@ public final class Power extends SimplePlugin {
 
 		PowerShopCauldronFile.onEnable();
 
+		if (HookManager.isPlaceholderAPILoaded()) {
+			new PlaceholderApi().register();
+			Common.log("Enabled support for PlaceholderAPI.");
+		} else
+			Common.log("Disabling support for PlaceholderAPI. ");
 	}
 
 	public static Power getInstance() {

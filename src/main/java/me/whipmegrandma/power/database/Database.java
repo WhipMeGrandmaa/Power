@@ -40,6 +40,7 @@ public class Database extends SimpleDatabase {
 
 				if (!resultSet.next()) {
 					Common.runLater(() -> onLoaded.accept(0));
+					this.saveNewPlayerCache(player);
 
 					return;
 				}
@@ -81,6 +82,24 @@ public class Database extends SimpleDatabase {
 				Remain.sneaky(t);
 			}
 		});
+	}
+
+	public void saveNewPlayerCache(Player player) {
+
+		try {
+			SerializedMap map = SerializedMap.ofArray(
+					"UUID", player.getUniqueId(),
+					"Name", player.getName(),
+					"Power", 0);
+
+			String columns = Common.join(map.keySet());
+			String values = Common.join(map.values(), ", ", value -> value == null || value.equals("NULL") ? "NULL" : "'" + value + "'");
+
+			this.update("INSERT OR REPLACE INTO {table} (" + columns + ") VALUES (" + values + ");");
+
+		} catch (Throwable t) {
+			Remain.sneaky(t);
+		}
 	}
 
 	public void pollCache(String playerName, Consumer<Integer> onLoaded) {

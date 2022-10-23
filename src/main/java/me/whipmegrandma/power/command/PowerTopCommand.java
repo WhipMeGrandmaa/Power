@@ -3,14 +3,12 @@ package me.whipmegrandma.power.command;
 import me.whipmegrandma.power.database.Database;
 import me.whipmegrandma.power.manager.PowerManager;
 import me.whipmegrandma.power.menu.PowerTopMenu;
-import org.bukkit.Bukkit;
 import org.mineacademy.fo.annotation.AutoRegister;
 import org.mineacademy.fo.command.SimpleCommand;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
 
 import java.util.Map;
-import java.util.UUID;
 
 @AutoRegister
 public final class PowerTopCommand extends SimpleCommand {
@@ -45,16 +43,13 @@ public final class PowerTopCommand extends SimpleCommand {
 
 				if (i == 5)
 					menu.setFifth(ItemCreator.of(CompMaterial.PLAYER_HEAD, "&6#5 " + map.getKey(), "", "&ePower: " + map.getValue()).skullOwner(map.getKey()).make());
+
 			}
 
 			menu.displayTo(getPlayer());
 
 		});
 
-	}
-
-	private String toName(UUID uuid) {
-		return Bukkit.getPlayer(uuid).getName();
 	}
 
 }
