@@ -1,6 +1,7 @@
 package me.whipmegrandma.power.command.power;
 
-import me.whipmegrandma.power.manager.PowerManager;
+import me.whipmegrandma.power.database.Database;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.mineacademy.fo.Common;
@@ -23,18 +24,23 @@ public final class SetSubCommand extends SimpleSubCommand {
 	protected void onCommand() {
 
 		CommandSender sender = getSender();
+		String receiver = args[0];
 
-		Player receiver = findPlayer(args[0]);
-		int power = findNumber(1, "The amount must be a positive whole number!");
+		int power = findNumber(1, "The amount must be a number!");
 
 		checkBoolean(power < 0 ? false : true, "The amount must be a positive whole number!");
 
-		PowerManager.set(receiver, power);
+		Database.getInstance().setPower(receiver, power, name -> {
+			if (!sender.getName().equals(receiver))
+				Common.tell(sender, "The power of " + name + " has been set to " + power + ".");
+		});
 
-		Common.tell(receiver, "Your power has been set to: " + power + " power.");
+		if (Bukkit.getPlayer(receiver) == null)
+			return;
 
-		if (!sender.equals(receiver))
-			Common.tell(sender, "You have set the power of " + receiver.getName() + " to: " + power);
+		Player receiverPlayer = findPlayer(args[0]);
+
+		Common.tell(receiverPlayer, "Your power has been set to " + power + ".");
 	}
 
 	@Override

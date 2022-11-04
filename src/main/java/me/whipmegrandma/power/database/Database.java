@@ -2,6 +2,7 @@ package me.whipmegrandma.power.database;
 
 import lombok.Getter;
 import me.whipmegrandma.power.manager.PowerManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.Valid;
@@ -84,6 +85,87 @@ public class Database extends SimpleDatabase {
 		});
 	}
 
+	public void addPower(String player, int amount, Consumer<String> onLoaded) {
+		Valid.checkSync("Please call this on the main thread.");
+
+		Common.runAsync(() -> {
+			try {
+
+				this.update("UPDATE {table} SET Power=Power + " + amount + " WHERE Name='" + player + "' COLLATE NOCASE");
+
+				ResultSet resultSet = this.query("SELECT Name FROM {table} WHERE Name='" + player + "' COLLATE NOCASE");
+
+				String playerName = resultSet.getString("Name");
+
+				Common.runLater(() -> {
+					onLoaded.accept(player);
+
+					Player playerObject = Bukkit.getPlayerExact(playerName);
+					if (playerObject != null)
+						PowerManager.give(playerObject, amount);
+				});
+
+
+			} catch (Throwable t) {
+				Remain.sneaky(t);
+			}
+		});
+	}
+
+	public void subtractPower(String player, int amount, Consumer<String> onLoaded) {
+		Valid.checkSync("Please call this on the main thread.");
+
+		Common.runAsync(() -> {
+			try {
+
+				this.update("UPDATE {table} SET Power=Power - " + amount + " WHERE Name='" + player + "' COLLATE NOCASE");
+
+				ResultSet resultSet = this.query("SELECT Name FROM {table} WHERE Name='" + player + "' COLLATE NOCASE");
+
+				String playerName = resultSet.getString("Name");
+
+				Common.runLater(() -> {
+					onLoaded.accept(player);
+
+					Player playerObject = Bukkit.getPlayerExact(playerName);
+					if (playerObject != null)
+						PowerManager.remove(playerObject, amount);
+				});
+
+
+			} catch (Throwable t) {
+				Remain.sneaky(t);
+			}
+		});
+	}
+
+	public void setPower(String player, int amount, Consumer<String> onLoaded) {
+		Valid.checkSync("Please call this on the main thread.");
+
+		Common.runAsync(() -> {
+			try {
+
+				this.update("UPDATE {table} SET Power=" + amount + " WHERE Name='" + player + "' COLLATE NOCASE");
+
+				ResultSet resultSet = this.query("SELECT Name FROM {table} WHERE Name='" + player + "' COLLATE NOCASE");
+
+				String playerName = resultSet.getString("Name");
+
+				Common.runLater(() -> {
+					onLoaded.accept(player);
+
+					Player playerObject = Bukkit.getPlayerExact(playerName);
+					if (playerObject != null)
+						PowerManager.set(playerObject, amount);
+				});
+
+
+			} catch (Throwable t) {
+				Remain.sneaky(t);
+			}
+		});
+	}
+
 	public void saveNewPlayerCache(Player player) {
 
 		try {
@@ -102,22 +184,20 @@ public class Database extends SimpleDatabase {
 		}
 	}
 
-	public void pollCache(String playerName, Consumer<Integer> onLoaded) {
+	public void pollCache(String playerName, Consumer<ResultSet> onLoaded) {
 		Valid.checkSync("Please call this on the main thread.");
 
 		Common.runAsync(() -> {
 			try {
-				ResultSet resultSet = this.query("SELECT * FROM {table} WHERE Name='" + playerName + "'");
+				ResultSet resultSet = this.query("SELECT * FROM {table} WHERE Name='" + playerName + "' COLLATE NOCASE");
 
 				if (!resultSet.next()) {
-					Common.runLater(() -> onLoaded.accept(0));
+					Common.runLater(() -> onLoaded.accept(null));
 
 					return;
 				}
 
-				int balance = Integer.parseInt(resultSet.getString("Power"));
-
-				Common.runLater(() -> onLoaded.accept(balance));
+				Common.runLater(() -> onLoaded.accept(resultSet));
 			} catch (Throwable t) {
 				Remain.sneaky(t);
 			}
@@ -145,5 +225,5 @@ public class Database extends SimpleDatabase {
 			}
 		});
 	}
-	
+
 }

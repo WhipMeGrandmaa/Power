@@ -35,8 +35,6 @@ public class PowerManager {
 		int powerUpdated = power + amount;
 
 		powerManager.put(uuid, powerUpdated);
-
-		Database.getInstance().saveCache(player);
 	}
 
 	public static void remove(Player player, int amount) {
@@ -46,8 +44,6 @@ public class PowerManager {
 		int powerUpdated = power - amount;
 
 		powerManager.put(uuid, powerUpdated);
-
-		Database.getInstance().saveCache(player);
 	}
 
 	public static void sell(Player player, int amount, CompMaterial material, SellMenu menu) {

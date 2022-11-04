@@ -36,11 +36,28 @@ public final class BalanceSubCommand extends SimpleSubCommand {
 				return;
 			}
 
-			Player receiver = findPlayer(args[0]);
+			String receiver = args[0];
 
-			int balance = PowerManager.balance(receiver);
+			Database.getInstance().pollCache(receiver, set -> {
 
-			Common.tell(sender, "Power of " + receiver.getName() + ": " + balance);
+				int balance = 0;
+				String name = null;
+
+				try {
+
+					balance = set.getInt("Power");
+					name = set.getString("Name");
+
+					Common.tell(sender, "Power of " + name + ": " + balance);
+
+				} catch (Throwable t) {
+
+					Common.tell(sender, receiver + " has never joined the server before.");
+				}
+
+			});
+
+
 		});
 	}
 

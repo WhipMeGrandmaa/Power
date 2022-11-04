@@ -1,4 +1,4 @@
-package me.whipmegrandma.power.papi;
+package me.whipmegrandma.power.hookmanager;
 
 import lombok.Setter;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -170,8 +170,6 @@ public class PlaceholderApi extends PlaceholderExpansion {
 				}
 			}
 
-			api.register();
-			
 		});
 	}
 

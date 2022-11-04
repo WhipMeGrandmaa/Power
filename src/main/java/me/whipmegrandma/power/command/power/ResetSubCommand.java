@@ -1,6 +1,7 @@
 package me.whipmegrandma.power.command.power;
 
-import me.whipmegrandma.power.manager.PowerManager;
+import me.whipmegrandma.power.database.Database;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.mineacademy.fo.Common;
@@ -23,15 +24,19 @@ public final class ResetSubCommand extends SimpleSubCommand {
 	protected void onCommand() {
 
 		CommandSender sender = getSender();
+		String receiver = args[0];
 
-		Player receiver = findPlayer(args[0]);
+		Database.getInstance().setPower(receiver, 0, name -> {
+			if (!sender.getName().equals(receiver))
+				Common.tell(sender, "The power of " + name + " has been reset.");
+		});
 
-		PowerManager.set(receiver, 0);
+		if (Bukkit.getPlayer(receiver) == null)
+			return;
 
-		Common.tell(receiver, "Your power has been reset.");
+		Player receiverPlayer = findPlayer(args[0]);
 
-		if (!sender.equals(receiver))
-			Common.tell(sender, "You have reset the power of " + receiver.getName() + ".");
+		Common.tell(receiverPlayer, "Your power has been reset.");
 	}
 
 	@Override

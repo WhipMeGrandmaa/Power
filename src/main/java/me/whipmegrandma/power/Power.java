@@ -2,7 +2,7 @@ package me.whipmegrandma.power;
 
 import me.whipmegrandma.power.database.Database;
 import me.whipmegrandma.power.file.PowerShopCauldronFile;
-import me.whipmegrandma.power.papi.PlaceholderApi;
+import me.whipmegrandma.power.hookmanager.PlaceholderApi;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.FileUtil;
 import org.mineacademy.fo.model.HookManager;

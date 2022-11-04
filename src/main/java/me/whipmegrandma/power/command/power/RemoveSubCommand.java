@@ -1,6 +1,7 @@
 package me.whipmegrandma.power.command.power;
 
-import me.whipmegrandma.power.manager.PowerManager;
+import me.whipmegrandma.power.database.Database;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.mineacademy.fo.Common;
@@ -23,18 +24,23 @@ public final class RemoveSubCommand extends SimpleSubCommand {
 	protected void onCommand() {
 
 		CommandSender sender = getSender();
+		String receiver = args[0];
 
-		Player receiver = findPlayer(args[0]);
 		int power = findNumber(1, "The amount must be a number!");
 
 		checkBoolean(power < 0 ? false : true, "The amount must be a positive whole number!");
 
-		PowerManager.remove(receiver, power);
+		Database.getInstance().subtractPower(receiver, power, name -> {
+			if (!sender.getName().equals(receiver))
+				Common.tell(sender, power + " power has been removed from " + name + ".");
+		});
 
-		Common.tell(receiver, power + " power has been taken from you.");
+		if (Bukkit.getPlayer(receiver) == null)
+			return;
 
-		if (!sender.equals(receiver))
-			Common.tell(sender, power + " power has been taken from " + receiver.getName());
+		Player receiverPlayer = findPlayer(args[0]);
+
+		Common.tell(receiverPlayer, power + " power has been taken from you.");
 	}
 
 	@Override
